@@ -4,9 +4,11 @@ class Sprite {
   PImage[] frames;
   int frameNumber, loopIn, loopOut, frameDivider;
   PVector p, r, s;
-  boolean spriteSheet;
-
+  boolean spriteSheet, play;
+  
   Sprite(String _name, int _frameDivider, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
+    play = true;
+    spriteSheet = _ssheet;
     loopIn = 0;
     frameNumber = loopIn;
     load(_name, _ssheet,_tdx,_tdy,_etx,_ety);
@@ -70,11 +72,13 @@ class Sprite {
   }
 
   void update() {
+    if(play){
     if (frameCount % frameDivider == 0) {
       frameNumber++;
       if (frameNumber >= loopOut) {
         frameNumber = loopIn;
       }
+    }
     }
   }
 
