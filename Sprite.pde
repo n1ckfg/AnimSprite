@@ -2,44 +2,78 @@
 
 class Sprite {
   PImage[] frames;
-  int frameNumber;
-  int frameDivider;
+  int frameNumber, loopIn, loopOut, frameDivider;
   PVector p, r, s;
+  boolean spriteSheet;
 
-  Sprite(String _name, int _frameDivider) {
-    frameNumber = 0;
+  Sprite(String _name, int _frameDivider, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
+    loopIn = 0;
+    frameNumber = loopIn;
+    load(_name, _ssheet,_tdx,_tdy,_etx,_ety);
+    loopOut = frames.length; 
     frameDivider = _frameDivider;
-    load(_name);
-    p = new PVector(width/2,height/2, 0);
+    p = new PVector(width/2, height/2, 0);
     r = new PVector(0, 0, 0);
     s = new PVector(1, 1);
   }
 
-  void load(String name) {
-    int filesCounter=0;
-    File dataFolder = new File(sketchPath, "data/"+name); 
-    String[] allFiles = dataFolder.list();
+  void load(String _name, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
     try {
-      for (int j=0;j<allFiles.length;j++) {
-        if (allFiles[j].toLowerCase().endsWith("png")) {
-          filesCounter++;
+      if (!_ssheet) {
+        //loads a sequence of frames from a folder
+        int filesCounter=0;
+        File dataFolder = new File(sketchPath, "data/"+_name); 
+        String[] allFiles = dataFolder.list();
+        for (int j=0;j<allFiles.length;j++) {
+          if (allFiles[j].toLowerCase().endsWith("png")) {
+            filesCounter++;
+          }
+        }
+        //--
+        frames = new PImage[filesCounter];
+        for (int i=0; i<frames.length; i++) {
+          println("Loading " + _name + "/frame" + (i+1) + ".png");
+          frames[i] = loadImage(_name + "/frame" + (i+1) + ".png");
+        }
+      }
+      else {
+        //loads a spritesheet from a single image
+        PImage fromImg;
+        fromImg = loadImage(_name + ".png");
+        int tileX = 1;
+        int tileY = 1;
+        int tileDimX = _tdx;
+        int tileDimY = _tdy;
+        int endTileX = _etx;
+        int endTileY = _ety;
+        //--
+        frames = new PImage[_etx*_ety];
+        for (int h=0;h<frames.length;h++){
+          if (tileX + tileDimX<=(endTileX*tileDimX)) {
+            tileX += tileDimX;
+          }
+          else if (tileY + tileDimY<=(endTileY*tileDimY)) {
+            tileY += tileDimY;
+            tileX = 1;
+          }
+          else {
+            tileX = 1;
+            tileY = 1;
+          }
+          println("Loading frame" + (h+1) + " from " + _name + ".png");
+          frames[h] = fromImg.get(tileX, tileY, tileDimX, tileDimY);
         }
       }
     }
     catch(Exception e) {
-    }
-    frames = new PImage[filesCounter];
-    for (int i=0; i<frames.length; i++) {
-      println("Loading " + name + "/frame" + (i+1) + ".png");
-      frames[i] = loadImage(name + "/frame" + (i+1) + ".png");
     }
   }
 
   void update() {
     if (frameCount % frameDivider == 0) {
       frameNumber++;
-      if (frameNumber >= frames.length) {
-        frameNumber = 0;
+      if (frameNumber >= loopOut) {
+        frameNumber = loopIn;
       }
     }
   }
@@ -59,7 +93,13 @@ class Sprite {
     draw();
   }
 
+  //spritesheet functions
+  /*
+
+   */
+
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //utilities
 
   void rotateXYZ(float _x, float _y, float _z) {
     rotateX(radians(_x));
@@ -91,9 +131,37 @@ class Sprite {
     }
   }
 
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //basic behaviors
+
   //Tween movement.  start, end, ease (more = slower).
   float tween(float v1, float v2, float e) {
     v1 += (v2-v1)/e;
+    return v1;
+  }
+
+  float shake(float v1, float s) {
+    v1 += random(s) - random(s);
+    return v1;
+  }
+
+  float boundary(float v1, float vMin, float vMax) {
+    if (v1<vMin) {
+      v1 = vMin;
+    } 
+    else if (v1>vMax) {
+      v1=vMax;
+    } 
+    return v1;
+  }
+
+  float gravity(float v1, float v2, float v3) { //y pos, floor num, gravity num
+    if (v1<v2) {
+      v1 += v3;
+    }
+    if (v1>v2) {
+      v1 = v2;
+    }
     return v1;
   }
 
