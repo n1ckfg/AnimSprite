@@ -3,7 +3,7 @@
 class Sprite {
   PImage[] frames;
   int frameNumber, loopIn, loopOut, frameDivider;
-  PVector p, r, s;
+  PVector p, r, s, t; //position, rotation, scale, target
   boolean spriteSheet, play;
   
   Sprite(String _name, int _frameDivider, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
@@ -17,6 +17,7 @@ class Sprite {
     p = new PVector(width/2, height/2, 0);
     r = new PVector(0, 0, 0);
     s = new PVector(1, 1);
+    p = new PVector(0, 0, 0);
   }
 
   void load(String _name, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
