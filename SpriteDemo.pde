@@ -11,10 +11,6 @@ void setup(){
   
 void draw() {
   background(0);
-  if(mousePressed){
-    anim.p.x = mouseX;
-    anim.p.y = mouseY;
-  }
   anim.run();
 }
 

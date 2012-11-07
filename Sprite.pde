@@ -14,7 +14,7 @@ class Sprite {
     load(_name, _ssheet,_tdx,_tdy,_etx,_ety);
     loopOut = frames.length; 
     frameDivider = _frameDivider;
-    p = new PVector(width/2, height/2, 0);
+    p = new PVector(0, 0, 0);
     r = new PVector(0, 0, 0);
     s = new PVector(1, 1);
     p = new PVector(0, 0, 0);
@@ -145,6 +145,13 @@ class Sprite {
     return v1;
   }
 
+  PVector tween3D(PVector v1, PVector v2, float e) {
+    v1.x += (v2.x-v1.x)/e;
+    v1.y += (v2.y-v1.y)/e;
+    v1.z += (v2.z-v1.z)/e;
+    return v1;
+  }
+  
   float shake(float v1, float s) {
     v1 += random(s) - random(s);
     return v1;
@@ -177,6 +184,28 @@ class Sprite {
     w2 /= 2;
     h2 /= 2; 
     if (x1 + w1 >= x2 - w2 && x1 - w1 <= x2 + w2 && y1 + h1 >= y2 - h2 && y1 - h1 <= y2 + h2) {
+      return true;
+    } 
+    else {
+      return false;
+    }
+  }
+  
+    //3D Hit Detect.  Assumes center.  xyz, whd of object 1, xyz, whd of object 2.
+  boolean hitDetect3D(PVector p1, PVector s1, PVector p2, PVector s2) {
+    s1.x /= 2;
+    s1.y /= 2;
+    s1.z /= 2;
+    s2.x /= 2;
+    s2.y /= 2; 
+    s2.z /= 2; 
+    if (  p1.x + s1.x >= p2.x - s2.x && 
+          p1.x - s1.x <= p2.x + s2.x && 
+          p1.y + s1.y >= p2.y - s2.y && 
+          p1.y - s1.y <= p2.y + s2.y &&
+          p1.z + s1.z >= p2.z - s2.z && 
+          p1.z - s1.z <= p2.z + s2.z
+      ) {
       return true;
     } 
     else {
