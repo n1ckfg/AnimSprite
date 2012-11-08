@@ -6,7 +6,7 @@ class Bacterium extends Sprite{
  }
  
  void update(){
-   if(mousePressed) p = tween3D(p, new PVector(mouseX,mouseY,0), 10);
+   if(mousePressed) p = tween3D(p, new PVector(mouseX,mouseY,0), new PVector(10,10,10));
    super.update();
  }
  

@@ -17,7 +17,7 @@ class Sprite {
     p = new PVector(0, 0, 0);
     r = new PVector(0, 0, 0);
     s = new PVector(1, 1);
-    p = new PVector(0, 0, 0);
+    t = new PVector(0, 0, 0);
   }
 
   void load(String _name, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
@@ -98,11 +98,6 @@ class Sprite {
     draw();
   }
 
-  //spritesheet functions
-  /*
-
-   */
-
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //utilities
 
@@ -145,10 +140,10 @@ class Sprite {
     return v1;
   }
 
-  PVector tween3D(PVector v1, PVector v2, float e) {
-    v1.x += (v2.x-v1.x)/e;
-    v1.y += (v2.y-v1.y)/e;
-    v1.z += (v2.z-v1.z)/e;
+  PVector tween3D(PVector v1, PVector v2, PVector e) {
+    v1.x += (v2.x-v1.x)/e.x;
+    v1.y += (v2.y-v1.y)/e.y;
+    v1.z += (v2.z-v1.z)/e.z;
     return v1;
   }
   
