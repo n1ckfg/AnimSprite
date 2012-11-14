@@ -1,28 +1,44 @@
-//based on Animation class by Matt Mets http://www.cibomahto.com/
+// uses bits from...
+// Matt Mets   cibomahto.com
+// Greg Borenstein   gregborenstein.com  
+// Dan Shiffman   shiffman.net
 
-class Sprite {
+class AnimSprite {
   PImage[] frames;
-  int frameNumber, loopIn, loopOut, frameDivider;
-  PVector p, r, s, t; //position, rotation, scale, target
-  boolean spriteSheet, play;
-  
-  Sprite(String _name, int _frameDivider, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
-    play = true;
-    spriteSheet = _ssheet;
-    loopIn = 0;
-    frameNumber = loopIn;
-    load(_name, _ssheet,_tdx,_tdy,_etx,_ety);
+  int loopIn = 0;
+  float index = loopIn;
+  int loopOut, fps;
+  float speed;
+  boolean playing = true;
+  boolean playOnce = false;
+  //position, rotation, scale, target
+  PVector p = new PVector(0, 0, 0);
+  PVector r = new PVector(0, 0, 0);
+  PVector s = new PVector(1, 1);
+  PVector t = new PVector(0, 0, 0);
+
+  //folder of frames method
+  AnimSprite(String _name, int _fps) {
+    loadFrames(_name);
     loopOut = frames.length; 
-    frameDivider = _frameDivider;
-    p = new PVector(0, 0, 0);
-    r = new PVector(0, 0, 0);
-    s = new PVector(1, 1);
-    t = new PVector(0, 0, 0);
+    fps = _fps;
   }
 
-  void load(String _name, boolean _ssheet, int _tdx, int _tdy, int _etx, int _ety) {
+  AnimSprite(PImage[] _name, int _fps) {
+    frames = _name;
+    loopOut = frames.length; 
+    fps = _fps;
+  }
+  
+  //spritesheet method
+  AnimSprite(String _name, int _fps, int _tdx, int _tdy, int _etx, int _ety) {
+    loadSpriteSheet(_name, _tdx,_tdy,_etx,_ety);
+    loopOut = frames.length; 
+    fps = _fps;
+  }
+
+  void loadFrames(String _name) {
     try {
-      if (!_ssheet) {
         //loads a sequence of frames from a folder
         int filesCounter=0;
         File dataFolder = new File(sketchPath, "data/"+_name); 
@@ -38,8 +54,11 @@ class Sprite {
           println("Loading " + _name + "/frame" + (i+1) + ".png");
           frames[i] = loadImage(_name + "/frame" + (i+1) + ".png");
         }
-      }
-      else {
+    }catch(Exception e){ }
+  }
+  
+  void loadSpriteSheet(String _name, int _tdx, int _tdy, int _etx, int _ety){
+      try {
         //loads a spritesheet from a single image
         PImage fromImg;
         fromImg = loadImage(_name + ".png");
@@ -66,30 +85,35 @@ class Sprite {
           println("Loading frame" + (h+1) + " from " + _name + ".png");
           frames[h] = fromImg.get(tileX, tileY, tileDimX, tileDimY);
         }
-      }
-    }
-    catch(Exception e) {
-    }
+      }catch(Exception e) { }
   }
 
+  void setSpeed(int _fps) {
+    speed = _fps/(float)frameRate;
+  }
+  
   void update() {
-    if(play){
-    if (frameCount % frameDivider == 0) {
-      frameNumber++;
-      if (frameNumber >= loopOut) {
-        frameNumber = loopIn;
+    setSpeed(fps);
+    if(playing){
+      index+=speed;
+      if (index >= loopOut) {
+        if(playOnce){
+          playing=false;
+        }else{
+          index = loopIn;
+        }
       }
-    }
     }
   }
 
   void draw() {
+    int frameIndex = int(index);
     pushMatrix();
     translate(p.x, p.y);
     rotateXYZ(r.x, r.y, r.z);
     scale(s.x, s.y);
     imageMode(CENTER);
-    image(frames[frameNumber], 0, 0);
+    image(frames[frameIndex], 0, 0);
     popMatrix();
   }
 

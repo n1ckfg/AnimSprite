@@ -1,7 +1,14 @@
-class Bacterium extends Sprite{
+class Bacterium extends AnimSprite{
  
  Bacterium(){
-   super("bacterium",3,true,50,50,10,10);
+   super("bacterium",12,50,50,10,10);
+ }
+
+ Bacterium(PImage[] _name){
+   super(_name,12);
+ }
+ 
+ void init(){
    p = new PVector(width/2,height/2,0);
  }
  
