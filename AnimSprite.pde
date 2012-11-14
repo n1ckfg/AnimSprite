@@ -11,23 +11,24 @@ class AnimSprite {
   float speed;
   boolean playing = true;
   boolean playOnce = false;
+  boolean is3D = false;
   //position, rotation, scale, target
-  PVector p = new PVector(0, 0, 0);
-  PVector r = new PVector(0, 0, 0);
-  PVector s = new PVector(1, 1);
-  PVector t = new PVector(0, 0, 0);
+  float r;
+  PVector p,r3D,s,t;
 
   //folder of frames method
   AnimSprite(String _name, int _fps) {
     loadFrames(_name);
     loopOut = frames.length; 
     fps = _fps;
+    init();
   }
 
   AnimSprite(PImage[] _name, int _fps) {
     frames = _name;
     loopOut = frames.length; 
     fps = _fps;
+    init();
   }
   
   //spritesheet method
@@ -35,7 +36,34 @@ class AnimSprite {
     loadSpriteSheet(_name, _tdx,_tdy,_etx,_ety);
     loopOut = frames.length; 
     fps = _fps;
+    init();
   }
+
+//~~~~~~~~~~~~~~~~~~~~~~
+void init(){
+  if(!is3D){
+  p = new PVector(0, 0);
+  r = 0;
+  s = new PVector(1, 1);
+  t = new PVector(0, 0);
+  }else{
+  p = new PVector(0, 0, 0);
+  r3D = new PVector(0, 0, 0);
+  s = new PVector(1, 1);
+  t = new PVector(0, 0, 0);
+  }
+}
+
+void make3D(){
+  is3D = true;
+  init();
+}
+
+void make2D(){
+  is3D = false;
+  init();
+}
+//~~~~~~~~~~~~~~~~~~~~~~
 
   void loadFrames(String _name) {
     try {
@@ -88,6 +116,8 @@ class AnimSprite {
       }catch(Exception e) { }
   }
 
+//~~~~~~~~~~~~~~~~~~~~~~
+
   void setSpeed(int _fps) {
     speed = _fps/(float)frameRate;
   }
@@ -109,8 +139,13 @@ class AnimSprite {
   void draw() {
     int frameIndex = int(index);
     pushMatrix();
+    if(!is3D){
     translate(p.x, p.y);
-    rotateXYZ(r.x, r.y, r.z);
+    rotate(radians(r));
+    }else{
+    translate(p.x, p.y, p.z);
+    rotateXYZ(r3D.x, r3D.y, r3D.z);
+    }
     scale(s.x, s.y);
     imageMode(CENTER);
     image(frames[frameIndex], 0, 0);
