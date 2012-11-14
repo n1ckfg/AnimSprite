@@ -12,6 +12,7 @@ class AnimSprite {
   boolean playing = true;
   boolean playOnce = false;
   boolean is3D = false;
+  boolean isTexture = false;
   //position, rotation, scale, target
   float r;
   PVector p,r3D,s,t;
@@ -140,15 +141,29 @@ void make2D(){
     int frameIndex = int(index);
     pushMatrix();
     if(!is3D){
-    translate(p.x, p.y);
-    rotate(radians(r));
+      translate(p.x, p.y);
+      rotate(radians(r));
+      scale(s.x, s.y);
     }else{
-    translate(p.x, p.y, p.z);
-    rotateXYZ(r3D.x, r3D.y, r3D.z);
+      translate(p.x, p.y, p.z);
+      rotate(radians(r));
+      rotateXYZ(r3D.x, r3D.y, r3D.z);
     }
     scale(s.x, s.y);
-    imageMode(CENTER);
-    image(frames[frameIndex], 0, 0);
+    if(!isTexture){
+      imageMode(CENTER);
+      image(frames[frameIndex], 0, 0);
+    }else{
+      noFill();
+      noStroke();
+      beginShape(QUADS);
+      texture(frames[frameIndex]);
+      vertex(-1*(frames[frameIndex].width/2),-1*(frames[frameIndex].height/2),0,0);
+      vertex(frames[frameIndex].width/2,-1*(frames[frameIndex].height/2),frames[frameIndex].width,0);
+      vertex(frames[frameIndex].width/2,frames[frameIndex].height/2,frames[frameIndex].width,frames[frameIndex].height);
+      vertex(-1*(frames[frameIndex].width/2),frames[frameIndex].height/2,0,frames[frameIndex].height);      
+      endShape(CLOSE);
+    }
     popMatrix();
   }
 
