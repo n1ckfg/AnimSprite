@@ -14,6 +14,8 @@ class AnimSprite {
   boolean is3D = false;
   boolean isTexture = false;
   boolean debug = false;
+  boolean hovered = false;
+  boolean clicked = false;
   //position, rotation, scale, target
   float r;
   PVector p,r3D,s,t;
