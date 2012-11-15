@@ -59,6 +59,7 @@ void init(){
 
 void make3D(){
   is3D = true;
+  isTexture = false;
   init();
 }
 
@@ -78,6 +79,7 @@ void makeTexture(){
 
 void make2D(){
   is3D = false;
+  isTexture = false;
   init();
 }
 //~~~~~~~~~~~~~~~~~~~~~~
