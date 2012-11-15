@@ -13,11 +13,13 @@ class AnimSprite {
   boolean playOnce = false;
   boolean is3D = false;
   boolean isTexture = false;
+  boolean debug = false;
   //position, rotation, scale, target
   float r;
   PVector p,r3D,s,t;
   PVector[] uvs = new PVector[4];
   PVector[] vertices = new PVector[4];
+  PVector[] vertices_proj = new PVector[4];
 
   //folder of frames method
   AnimSprite(String _name, int _fps) {
@@ -82,6 +84,15 @@ void make2D(){
   isTexture = false;
   init();
 }
+
+PVector vertToProj(PVector _p, PVector _centerPoint){
+  return new PVector(_p.x + _centerPoint.x,_p.y + _centerPoint.y);
+}
+
+PVector projToVert(PVector _p, PVector _centerPoint){
+  return new PVector(_p.x - _centerPoint.x,_p.y - _centerPoint.y);
+}
+
 //~~~~~~~~~~~~~~~~~~~~~~
 
   void loadFrames(String _name) {
@@ -172,6 +183,9 @@ void make2D(){
       imageMode(CENTER);
       image(frames[frameIndex], 0, 0);
     }else{
+      for(int i=0;i<vertices.length;i++){
+        vertices_proj[i] = vertToProj(vertices[i],p);
+      }
       noFill();
       noStroke();
       beginShape(QUADS);
@@ -181,6 +195,18 @@ void make2D(){
       vertex(vertices[2].x,vertices[2].y,uvs[2].x,uvs[2].y);
       vertex(vertices[3].x,vertices[3].y,uvs[3].x,uvs[3].y);
       endShape(CLOSE);
+      if(debug){
+        noStroke();
+        ellipseMode(CENTER);
+        fill(255,0,0);
+        ellipse(vertices[0].x,vertices[0].y,5,5);
+        fill(0,255,0);
+        ellipse(vertices[1].x,vertices[1].y,5,5);
+        fill(0,0,255);
+        ellipse(vertices[2].x,vertices[2].y,5,5);
+        fill(255,0,255);
+        ellipse(vertices[3].x,vertices[3].y,5,5);
+      }
     }
     popMatrix();
   }
@@ -300,4 +326,3 @@ void make2D(){
     }
   }
 }
-
