@@ -16,6 +16,8 @@ class AnimSprite {
   //position, rotation, scale, target
   float r;
   PVector p,r3D,s,t;
+  PVector[] uvs = new PVector[4];
+  PVector[] vertices = new PVector[4];
 
   //folder of frames method
   AnimSprite(String _name, int _fps) {
@@ -58,6 +60,20 @@ void init(){
 void make3D(){
   is3D = true;
   init();
+}
+
+void makeTexture(){
+  is3D = true;
+  isTexture = true;
+  init();
+  vertices[0] = new PVector(-1*(frames[0].width/2),-1*(frames[0].height/2));
+  vertices[1] = new PVector(frames[0].width/2,-1*(frames[0].height/2));
+  vertices[2] = new PVector(frames[0].width/2,frames[0].height/2);
+  vertices[3] = new PVector(-1*(frames[0].width/2),frames[0].height/2);
+  uvs[0] = new PVector(0,0);
+  uvs[1] = new PVector(frames[0].width,0);
+  uvs[2] = new PVector(frames[0].width,frames[0].height);
+  uvs[3] = new PVector(0,frames[0].height); 
 }
 
 void make2D(){
@@ -158,10 +174,10 @@ void make2D(){
       noStroke();
       beginShape(QUADS);
       texture(frames[frameIndex]);
-      vertex(-1*(frames[frameIndex].width/2),-1*(frames[frameIndex].height/2),0,0);
-      vertex(frames[frameIndex].width/2,-1*(frames[frameIndex].height/2),frames[frameIndex].width,0);
-      vertex(frames[frameIndex].width/2,frames[frameIndex].height/2,frames[frameIndex].width,frames[frameIndex].height);
-      vertex(-1*(frames[frameIndex].width/2),frames[frameIndex].height/2,0,frames[frameIndex].height);      
+      vertex(vertices[0].x,vertices[0].y,uvs[0].x,uvs[0].y);
+      vertex(vertices[1].x,vertices[1].y,uvs[1].x,uvs[1].y);
+      vertex(vertices[2].x,vertices[2].y,uvs[2].x,uvs[2].y);
+      vertex(vertices[3].x,vertices[3].y,uvs[3].x,uvs[3].y);
       endShape(CLOSE);
     }
     popMatrix();

@@ -2,7 +2,7 @@ int sW = 640;
 int sH = 480;
 int sD = (sW+sH)/2;
 int fps = 60;
-int numParticles = 500;
+int numParticles = 100;
 Bacterium bacterium;
 Bacterium[] bacteria = new Bacterium[numParticles];
 
@@ -17,7 +17,7 @@ void setup() {
   bacterium = new Bacterium();
   for (int i=0;i<bacteria.length;i++) {
     bacteria[i] = new Bacterium(bacterium.frames);
-    bacteria[i].make3D();
+    bacteria[i].make3D(); //adds a Z axis and other features. You can also makeTexture to control individual vertices.
     bacteria[i].p = new PVector(random(sW), random(sH), random(sD)-(sD/2));
     bacteria[i].index = random(bacteria[i].frames.length);
     bacteria[i].r = 0;
