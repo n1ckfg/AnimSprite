@@ -6,12 +6,12 @@ import javax.media.opengl.*;
 PGraphicsOpenGL pgl;
 GL gl;
 
-void setupGl(){
+void setupGl(){ //goes LAST in setup
   pgl = (PGraphicsOpenGL) g;
   gl = pgl.gl;
 }
 
-void drawGl(){
+void drawGl(){ //goes FIRST in draw
   pgl.beginGL();
   gl.glDisable(GL.GL_DEPTH_TEST);// This fixes the overlap issue
   gl.glEnable(GL.GL_BLEND);  // Turn on the blend mode
