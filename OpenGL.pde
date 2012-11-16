@@ -1,3 +1,5 @@
+//May not be supported in Processing 2.
+
 import processing.opengl.*;
 import javax.media.opengl.*;
 

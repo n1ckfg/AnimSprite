@@ -171,6 +171,7 @@ PVector projToVert(PVector _p, PVector _centerPoint){
   void draw() {
     int frameIndex = int(index);
     pushMatrix();
+    //translate, rotate, scale
     if(!is3D){
       translate(p.x, p.y);
       rotate(radians(r));
@@ -179,8 +180,9 @@ PVector projToVert(PVector _p, PVector _centerPoint){
       translate(p.x, p.y, p.z);
       rotate(radians(r));
       rotateXYZ(r3D.x, r3D.y, r3D.z);
+      scale(s.x, s.y);
     }
-    scale(s.x, s.y);
+    //draw
     if(!isTexture){
       imageMode(CENTER);
       image(frames[frameIndex], 0, 0);

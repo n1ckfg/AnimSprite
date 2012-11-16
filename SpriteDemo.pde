@@ -23,10 +23,12 @@ void setup() {
     bacteria[i].r = 0;
     bacteria[i].t = new PVector(random(sW), random(sH), random(sD)-(sD/2));
   }
+  //May not be supported in Processing 2.
   setupGl(); //goes LAST in setup
 }
 
 void draw() {
+  //May not be supported in Processing 2.
   drawGl(); //goes FIRST in draw
   background(0);
   for (int i=0;i<bacteria.length;i++) {
