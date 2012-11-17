@@ -2,12 +2,17 @@ class Bacterium extends AnimSprite{
  
  Bacterium(){
    super("bacterium",12,50,50,10,10);
-   //super("runner",12);
-   p = new PVector(sW/2,sH/2,0);
+   init();
  }
 
  Bacterium(PImage[] _name){
    super(_name,12);
+   init();
+ }
+ 
+ void init(){
+   super.init();
+   p = new PVector(sW/2,sH/2,0);
  }
  
  void update(){

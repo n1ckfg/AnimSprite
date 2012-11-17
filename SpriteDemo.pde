@@ -3,7 +3,6 @@ int sH = 480;
 int sD = (sW+sH)/2;
 int fps = 60;
 int numParticles = 100;
-Bacterium bacterium;
 Bacterium[] bacteria = new Bacterium[numParticles];
 
 void setup() {
@@ -14,7 +13,7 @@ void setup() {
   // ...or from a spritesheet like this:
   //example = new AnimSprite("walksequence",12,150,185,6,5);
   // ...and here's a subclass with behaviors already included:
-  bacterium = new Bacterium();
+  Bacterium bacterium = new Bacterium();
   for (int i=0;i<bacteria.length;i++) {
     bacteria[i] = new Bacterium(bacterium.frames);
     bacteria[i].make3D(); //adds a Z axis and other features. You can also makeTexture to control individual vertices.
