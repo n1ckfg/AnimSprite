@@ -112,7 +112,7 @@ PVector projToVert(PVector _p, PVector _centerPoint){
         frames = new PImage[filesCounter];
         for (int i=0; i<frames.length; i++) {
           println("Loading " + _name + "/frame" + (i+1) + ".png");
-          frames[i] = loadImage(_name + "/frame" + (i+1) + ".png");
+          frames[i] = loadImage("data/"+_name + "/frame" + (i+1) + ".png");
         }
     }catch(Exception e){ }
   }
@@ -121,7 +121,7 @@ PVector projToVert(PVector _p, PVector _centerPoint){
       try {
         //loads a spritesheet from a single image
         PImage fromImg;
-        fromImg = loadImage(_name + ".png");
+        fromImg = loadImage("data/"+_name + ".png");
         int tileX = 1;
         int tileY = 1;
         int tileDimX = _tdx;
