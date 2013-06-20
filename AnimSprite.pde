@@ -187,7 +187,9 @@ PVector projToVert(PVector _p, PVector _centerPoint){
       imageMode(CENTER);
       try{
         image(frames[frameIndex], 0, 0);
-      }catch(Exception e){ }
+      }catch(Exception e){ 
+        image(frames[0], 0, 0);
+      }
     }else{
       for(int i=0;i<vertices.length;i++){
         vertices_proj[i] = vertToProj(vertices[i],p);
