@@ -22,6 +22,8 @@ class AnimSprite {
   PVector[] uvs = new PVector[4];
   PVector[] vertices = new PVector[4];
   PVector[] vertices_proj = new PVector[4];
+  float w, h;
+  float ease = 100;
 
   //folder of frames method
   AnimSprite(String _name, int _fps) {
@@ -59,6 +61,8 @@ void init(){
   s = new PVector(1, 1);
   t = new PVector(0, 0, 0);
   }
+  w = frames[0].width;
+  h = frames[0].height;
 }
 
 void make3D(){
@@ -185,11 +189,7 @@ PVector projToVert(PVector _p, PVector _centerPoint){
     //draw
     if(!isTexture){
       imageMode(CENTER);
-      try{
-        image(frames[frameIndex], 0, 0);
-      }catch(Exception e){ 
-        image(frames[0], 0, 0);
-      }
+      image(frames[frameIndex], 0, 0);
     }else{
       for(int i=0;i<vertices.length;i++){
         vertices_proj[i] = vertToProj(vertices[i],p);
@@ -203,8 +203,7 @@ PVector projToVert(PVector _p, PVector _centerPoint){
       vertex(vertices[2].x,vertices[2].y,uvs[2].x,uvs[2].y);
       vertex(vertices[3].x,vertices[3].y,uvs[3].x,uvs[3].y);
       endShape(CLOSE);
- 
-    if(debug){
+      if(debug){
         noStroke();
         ellipseMode(CENTER);
         fill(255,0,0);
