@@ -105,7 +105,7 @@ PVector projToVert(PVector _p, PVector _centerPoint){
     try {
         //loads a sequence of frames from a folder
         int filesCounter=0;
-        File dataFolder = new File(sketchPath, "data/"+_name); 
+        File dataFolder = new File(dataFile(sketchPath()).getAbsolutePath(), "data/"+_name); 
         String[] allFiles = dataFolder.list();
         for (int j=0;j<allFiles.length;j++) {
           if (allFiles[j].toLowerCase().endsWith("png")) {
