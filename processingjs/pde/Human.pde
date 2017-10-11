@@ -1,4 +1,4 @@
-class Human extends Sprite {
+class Human extends AnimSprite {
   float speed = 10;
   float jumpHeight = 80;
   float jumpSpeed = 20;
@@ -6,7 +6,7 @@ class Human extends Sprite {
   boolean jumpReady = true;
   
   Human(float pX, float pY) {
-    super("data/walksequence.png",150,185, pX, pY); // filename, tilewidth, tileheight, x pos, y pos
+    super("./images/walksequence.png",150,185, pX, pY); // filename, tilewidth, tileheight, x pos, y pos
       internalFps = 24;
       goTo("stop");
   }

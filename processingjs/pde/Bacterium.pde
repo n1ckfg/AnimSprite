@@ -1,4 +1,4 @@
-class Bacterium extends Sprite {
+class Bacterium extends AnimSprite {
   
   float spreadMin = 5;
   float spread = spreadMin;
@@ -6,7 +6,7 @@ class Bacterium extends Sprite {
   float friction = 5;
 
   Bacterium(float pX, float pY) {
-    super("data/bacterium.png",50,50, pX, pY); // filename, tilewidth, tileheight, x pos, y pos
+    super("./images/bacterium.png",50,50, pX, pY); // filename, tilewidth, tileheight, x pos, y pos
     internalFps = 12;
     goTo("stop");
   }

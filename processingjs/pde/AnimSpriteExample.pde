@@ -1,4 +1,4 @@
-/* @pjs preload="data/bacterium.png, data/bg_5.gif, data/walksequence.png"; */
+/* @pjs preload="./images/bacterium.png, ./images/bg_5.gif, ./images/walksequence.png"; */
 
 PImage bg;
 color bgColor = color(10,0,20);
@@ -17,9 +17,9 @@ boolean up = false;
 boolean down = false;
 
 void setup() {
-  size(640,480);
+  size(640,480,P2D);
   frameRate(30);
-  bg = loadImage("data/bg_5.gif");
+  bg = loadImage("./images/bg_5.gif");
   for(int i=0;i<bacteria.length;i++) {
     bacteria[i] = new Bacterium(random(width),random(height));
   }

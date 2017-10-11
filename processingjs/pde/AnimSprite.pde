@@ -1,4 +1,4 @@
-class Sprite {
+class AnimSprite {
   String command;
   float internalFps;
   
@@ -14,7 +14,7 @@ class Sprite {
 String[] blendModes = {"BLEND", "ADD", "SUBTRACT", "LIGHTEST", "DARKEST", "DIFFERENCE", "EXCLUSION", "MULTIPLY", "SCREEN", "OVERLAY", "HARD_LIGHT", "SOFT_LIGHT", "DODGE", "BURN"};
 int[] blendModeCodes = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
 
-  Sprite(String fN, int tW, int tH, float pX, float pY) {
+  AnimSprite(String fN, int tW, int tH, float pX, float pY) {
     fromImg = loadImage(fN);
     tileWidth = tW;
     tileHeight = tH;
