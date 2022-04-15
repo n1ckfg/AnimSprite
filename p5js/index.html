@@ -1,18 +1,132 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Animsprite.js</title>
-    <link type="text/css" rel="stylesheet" href="./css/main.css"/>
-    <script type="text/javascript" src="./js/libraries/p5.min.js"></script>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+		<title>Animsprite.js</title>
+    	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="./css/style.css">
+		<script src="./js/libraries/p5.min.js"></script>
+		<script src="./js/animsprite.js"></script>
+		<script src="./js/bacterium.js"></script>
+		<script src="./js/human.js"></script>
+	</head>
 
-    <script type="text/javascript" src="./js/animsprite.js"></script>
-    <script type="text/javascript" src="./js/bacterium.js"></script>
-    <script type="text/javascript" src="./js/human.js"></script>
-  </head>
-  <body>
-    <div id="container"></div>
-    Sprite class for p5.js. Try arrow keys, space bar, click...<br>
-    <a href="https://github.com/n1ckfg/Animsprite">[ view source ]</a>
-    <script type="text/javascript" src="./js/main.js"></script>
-  </body>
+	<body>
+		<script>
+			"use strict";
+
+			const sW = 800;
+			const sH = 800;
+			const fps = 60;
+			const pixelSize = 1;
+			let pg;
+
+			let human_img, bacterium_img, bg_img;
+			let human, bacterium;
+			let bacteria = [];
+			let numBacteria = 20;
+			let gravityNum = 8;
+			let floorNum = 350;
+
+			let left = false;
+			let right = false;
+
+			function preload() {
+			    human_img = loadImage("./images/walksequence.png");
+			    bacterium_img = loadImage("./images/bacterium.png");
+			    bg_img = loadImage("./images/bg_5.png");
+			    bg_img.resize(sW, sH);
+			}
+
+			function setup() {
+			    createCanvas(windowHeight, windowHeight);
+			    pg = createGraphics(sW, sH);
+			    
+			    pixelDensity(1);	
+			    noCursor();
+			    frameRate(fps);
+			    pg.strokeWeight(pixelSize);  
+
+			    human = new Human(human_img, 12, 150, 185, 6, 5); // image, fps, tileHeightX, tileHeightY, numTilesX, numTilesY
+			    human.p = createVector(width/2,floorNum);    
+			    bacterium = new Bacterium(bacterium_img, 1, 50, 50, 10, 10);
+			    for (let i=0; i<numBacteria; i++) {
+			        bacteria.ease = 1000;
+			        bacteria.push(bacterium);
+			    }	
+			}
+
+			function draw() {
+			    pg.clear();
+			    pg.image(bg_img, 0, 0);
+
+			    if (left && !right) {
+			        human.gotoFrame("runLeft");
+			    } else if (!left && right) {
+			        human.gotoFrame("runRight");
+			    } else if (!left && !right){
+			        human.gotoFrame("stop");
+			    }
+
+			    human.run();
+			    for (let i=0; i< bacteria.length; i++) {
+			        if (mouseIsPressed) {
+			            bacteria[i].tween;
+			        }
+			        bacteria[i].run();
+			    }
+
+			    image(pg, 0, 0, width, height);
+			}
+
+			function windowResized() {
+				resizeCanvas(windowHeight, windowHeight);
+			}
+
+			function mousePressed() {
+			    console.log("mouse pressed");
+			    for (let i=0; i< bacteria.length; i++) {
+			        bacteria[i].t = createVector(mouseX,mouseY);
+			        bacteria[i].gotoFrame("play");
+			    }
+			}
+
+			function mouseReleased() {
+			    console.log("mouse released");
+			    for (let i=0; i< bacteria.length; i++) {
+			        bacteria[i].gotoFrame("stop");
+			    }
+			}
+
+			function keyPressed() {
+			    if (keyCode == LEFT_ARROW) {
+			        left = true;
+			        right = false;
+			    } else if (keyCode == RIGHT_ARROW) {
+			        right = true;
+			        left = false;
+			    }        
+
+			    if (key === ' ' && human.jumpReady == true) {
+			        human.jumpReady = false;
+			        human.jump = true;
+			    }    
+			}
+
+			function keyReleased() {
+			    if (keyCode == LEFT_ARROW) {
+			        left = false;
+			    }
+			    if (keyCode == RIGHT_ARROW) {
+			        right = false;
+			    }        
+
+			    if (key === ' ') {
+			        human.jumpReady = true;
+			        human.jump = false;
+			    }    
+			}
+		</script>
+	</body>
+
 </html>

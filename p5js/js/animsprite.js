@@ -57,14 +57,14 @@ class AnimSprite { // _name is single PImage
     loadSpriteSheet(_name, _tdx, _tdy, _etx, _ety) {
         try {
             //loads a spritesheet from a single image
-            let tileX = 1;
-            let tileY = 1;
-            let tileDimX = _tdx;
-            let tileDimY = _tdy;
-            let endTileX = _etx;
-            let endTileY = _ety;
+            var tileX = 1;
+            var tileY = 1;
+            var tileDimX = _tdx;
+            var tileDimY = _tdy;
+            var endTileX = _etx;
+            var endTileY = _ety;
 
-            for (let i = 0; i < _etx*_ety; i++) {
+            for (var i = 0; i < _etx*_ety; i++) {
                 if (tileX + tileDimX <= (endTileX * tileDimX)) {
                     tileX += tileDimX;
                 } else if (tileY + tileDimY <= (endTileY * tileDimY)) {
@@ -110,16 +110,16 @@ class AnimSprite { // _name is single PImage
     }
 
     draw() {
-        push();
+        pg.push();
         //translate, rotate, scale
-        translate(this.p.x, this.p.y);
-        rotate(radians(this.r));
-        scale(this.s.x, this.s.y);
+        pg.translate(this.p.x, this.p.y);
+        pg.rotate(radians(this.r));
+        pg.scale(this.s.x, this.s.y);
 
         //draw
-        imageMode(CENTER);
-        image(this.framesArray[parseInt(this.currentFrame)], 0, 0);
-        pop();
+        pg.imageMode(CENTER);
+        pg.image(this.framesArray[parseInt(this.currentFrame)], 0, 0);
+        pg.pop();
     }
 
     run() {
@@ -140,7 +140,7 @@ class AnimSprite { // _name is single PImage
 
     //Tween movement.    start, end, ease (more = slower).
     tween(_e) { //float
-        let _ease;
+        var _ease;
         if (!_e) {
             _ease = this.ease;
         } else {
@@ -151,7 +151,7 @@ class AnimSprite { // _name is single PImage
     }
 
     shaker(_s) {
-        let _shake;
+        var _shake;
         if (!_s) {
             _shake = this.shake;
         } else {
@@ -164,18 +164,18 @@ class AnimSprite { // _name is single PImage
     bounds() {
         if (this.p.x < 0) {
             this.p.x = 0;
-        } else if (this.p.x > width) {
-            this.p.x = width;
+        } else if (this.p.x > pg.width) {
+            this.p.x = pg.width;
         }
         if (this.p.y < 0) {
             this.p.y = 0;
-        } else if (this.p.y > height) {
-            this.p.y = height;
+        } else if (this.p.y > pg.height) {
+            this.p.y = pg.height;
         }
     }
 
     falling(_g) {    //y pos, floor num, gravity num
-        let _gravity;
+        var _gravity;
         if (!_g) {
             _gravity = this.gravity;
         } else {
@@ -191,24 +191,24 @@ class AnimSprite { // _name is single PImage
 
     //2D Hit Detect.    Assumes center.    x,y,w,h of object 1, x,y,w,h, of object 2.
     hitDetect(_x, _y) {
-        let x1 = this.p.x;
-        let y1 = this.p.y;
-        let w1 = this.w/2;
-        let h1 = this.h/2;
-        let x2;
+        var x1 = this.p.x;
+        var y1 = this.p.y;
+        var w1 = this.w/2;
+        var h1 = this.h/2;
+        var x2;
         if (!_x) {
             x2 = this.t.x;
         } else {
             x2 = _x;
         }    
-        let y2;
+        var y2;
         if (!_y) {
             y2 = this.t.y;
         } else {
             y2 = _y;
         } 
-        let w2 = this.hitSpread/2;
-        let h2 = this.hitSpread/2; 
+        var w2 = this.hitSpread/2;
+        var h2 = this.hitSpread/2; 
         if (x1 + w1 >= x2 - w2 && x1 - w1 <= x2 + w2 && y1 + h1 >= y2 - h2 && y1 - h1 <= y2 + h2) {
             return true;
         } else {
