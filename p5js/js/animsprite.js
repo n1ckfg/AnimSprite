@@ -57,14 +57,14 @@ class AnimSprite { // _name is single PImage
     loadSpriteSheet(_name, _tdx, _tdy, _etx, _ety) {
         try {
             //loads a spritesheet from a single image
-            var tileX = 1;
-            var tileY = 1;
-            var tileDimX = _tdx;
-            var tileDimY = _tdy;
-            var endTileX = _etx;
-            var endTileY = _ety;
+            let tileX = 1;
+            let tileY = 1;
+            let tileDimX = _tdx;
+            let tileDimY = _tdy;
+            let endTileX = _etx;
+            let endTileY = _ety;
 
-            for (var i = 0; i < _etx*_ety; i++) {
+            for (let i = 0; i < _etx*_ety; i++) {
                 if (tileX + tileDimX <= (endTileX * tileDimX)) {
                     tileX += tileDimX;
                 } else if (tileY + tileDimY <= (endTileY * tileDimY)) {
@@ -140,7 +140,7 @@ class AnimSprite { // _name is single PImage
 
     //Tween movement.    start, end, ease (more = slower).
     tween(_e) { //float
-        var _ease;
+        let _ease;
         if (!_e) {
             _ease = this.ease;
         } else {
@@ -151,7 +151,7 @@ class AnimSprite { // _name is single PImage
     }
 
     shaker(_s) {
-        var _shake;
+        let _shake;
         if (!_s) {
             _shake = this.shake;
         } else {
@@ -175,7 +175,7 @@ class AnimSprite { // _name is single PImage
     }
 
     falling(_g) {    //y pos, floor num, gravity num
-        var _gravity;
+        let _gravity;
         if (!_g) {
             _gravity = this.gravity;
         } else {
@@ -191,24 +191,24 @@ class AnimSprite { // _name is single PImage
 
     //2D Hit Detect.    Assumes center.    x,y,w,h of object 1, x,y,w,h, of object 2.
     hitDetect(_x, _y) {
-        var x1 = this.p.x;
-        var y1 = this.p.y;
-        var w1 = this.w/2;
-        var h1 = this.h/2;
-        var x2;
+        let x1 = this.p.x;
+        let y1 = this.p.y;
+        let w1 = this.w/2;
+        let h1 = this.h/2;
+        let x2;
         if (!_x) {
             x2 = this.t.x;
         } else {
             x2 = _x;
         }    
-        var y2;
+        let y2;
         if (!_y) {
             y2 = this.t.y;
         } else {
             y2 = _y;
         } 
-        var w2 = this.hitSpread/2;
-        var h2 = this.hitSpread/2; 
+        let w2 = this.hitSpread/2;
+        let h2 = this.hitSpread/2; 
         if (x1 + w1 >= x2 - w2 && x1 - w1 <= x2 + w2 && y1 + h1 >= y2 - h2 && y1 - h1 <= y2 + h2) {
             return true;
         } else {
