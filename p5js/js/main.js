@@ -44,6 +44,7 @@ function draw() {
     }
 
     human.run();
+
     for (let i=0; i< bacteria.length; i++) {
         if (mouseIsPressed) {
             bacteria[i].tween;
@@ -70,9 +71,10 @@ function mouseReleased() {
 function keyPressed() {
     if (keyCode == LEFT_ARROW) {
         left = true;
-    }
-    if (keyCode == RIGHT_ARROW) {
+        right = false;
+    } else if (keyCode == RIGHT_ARROW) {
         right = true;
+    	left = false;
     }        
 
     if (key === ' ' && human.jumpReady == true) {
