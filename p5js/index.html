@@ -15,11 +15,12 @@
 		<script>
 			"use strict";
 
-			const sW = 800;
-			const sH = 800;
+			const sW = 640;
+			const sH = 480;
 			const fps = 60;
 			const pixelSize = 1;
-			let pg;
+			let pg, pg2;
+			const pgOffset = Math.abs(sW - sH) / 2;
 
 			let human_img, bacterium_img, bg_img;
 			let human, bacterium;
@@ -41,6 +42,7 @@
 			function setup() {
 			    createCanvas(windowHeight, windowHeight);
 			    pg = createGraphics(sW, sH);
+			    pg2 = createGraphics(sW, sW);
 			    
 			    pixelDensity(1);	
 			    noCursor();
@@ -57,6 +59,7 @@
 			}
 
 			function draw() {
+				pg.push();
 			    pg.clear();
 			    pg.image(bg_img, 0, 0);
 
@@ -75,8 +78,13 @@
 			        }
 			        bacteria[i].run();
 			    }
+			    pg.pop();
 
-			    image(pg, 0, 0, width, height);
+			    pg2.push();
+			    pg2.image(pg, 0, pgOffset);
+			    pg2.pop();
+
+			    image(pg2, 0, 0, width, height);
 			}
 
 			function windowResized() {
